@@ -36,7 +36,7 @@ function customerSuccessBalancing(
       countBase = count;
       returnId = customerSuccess[index].id;
       currentScore = customerSuccess[index].score;
-    }
+    } else if (count === countBase) return 0;
   }
   return returnId;
 }
@@ -61,32 +61,32 @@ test("Scenario 1", () => {
   expect(customerSuccessBalancing(css, customers, csAway)).toEqual(1);
 });
 
-// function buildSizeEntities(size, score) {
-//   const result = [];
-//   for (let i = 0; i < size; i += 1) {
-//     result.push({ id: i + 1, score });
-//   }
-//   return result;
-// }
+function buildSizeEntities(size, score) {
+  const result = [];
+  for (let i = 0; i < size; i += 1) {
+    result.push({ id: i + 1, score });
+  }
+  return result;
+}
 
-// function mapEntities(arr) {
-//   return arr.map((item, index) => ({
-//     id: index + 1,
-//     score: item,
-//   }));
-// }
+function mapEntities(arr) {
+  return arr.map((item, index) => ({
+    id: index + 1,
+    score: item,
+  }));
+}
 
-// function arraySeq(count, startAt){
-//   return Array.apply(0, Array(count)).map((it, index) => index + startAt);
-// }
+function arraySeq(count, startAt){
+  return Array.apply(0, Array(count)).map((it, index) => index + startAt);
+}
 
-// test("Scenario 2", () => {
-//   const css = mapEntities([11, 21, 31, 3, 4, 5]);
-//   const customers = mapEntities([10, 10, 10, 20, 20, 30, 30, 30, 20, 60]);
-//   const csAway = [];
+test("Scenario 2", () => {
+  const css = mapEntities([11, 21, 31, 3, 4, 5]);
+  const customers = mapEntities([10, 10, 10, 20, 20, 30, 30, 30, 20, 60]);
+  const csAway = [];
 
-//   expect(customerSuccessBalancing(css, customers, csAway)).toEqual(0);
-// });
+  expect(customerSuccessBalancing(css, customers, csAway)).toEqual(0);
+});
 
 // test("Scenario 3", () => {
 //   const testTimeoutInMs = 100;
