@@ -1,29 +1,28 @@
 /**
  * Returns CustomersSuccess ordered
- * @param {array} customerSuccess
- * @param {array} customerSuccessAway
+ * @param {array} availableCS
+ * @param {array} unavailableCS
  */
-function sortCustomerSuccess(customerSuccess, customerSuccessAway) {
-  const customersSuccessOrdered = customerSuccess.filter((cs) => !customerSuccessAway.includes(cs.id))
+function updateAndOrderCustomerSuccess(availableCS, unavailableCS) {
+  return availableCS.filter((cs) => !unavailableCS.includes(cs.id))
     .sort((a, b) => {
       if (a.score < b.score) return -1;
       if (a.score > b.score) return 1;
       return 0
     });
-  return customersSuccessOrdered;
 }
 
 /**
  * Returns the number of customers each CustomerSuccess can handle
  * @param {array} customers
- * @param {number} score
+ * @param {number} previousScore
  * @param {number} currentScoreCustomerSuccess
  */
-function countsTheNumberOfCustomers(customers, score, currentScoreCustomerSuccess) {
+function countCustomers(customers, currentScoreCS, previousScoreCS) {
   let currentQuantityOfCustomers = 0;
   for (let index = 0; index < customers.length; index += 1) {
     const currentScoreCustomer = customers[index].score;
-    if (currentScoreCustomer <= score && currentScoreCustomer > currentScoreCustomerSuccess) {
+    if (currentScoreCustomer <= currentScoreCS && currentScoreCustomer > previousScoreCS) {
       currentQuantityOfCustomers += 1;
     }
   }
@@ -41,26 +40,26 @@ function customerSuccessBalancing(
   customers,
   customerSuccessAway
 ) {
-  const customersSuccessDisponibles = sortCustomerSuccess(customerSuccess, customerSuccessAway);
+  const availableCSs = updateAndOrderCustomerSuccess(customerSuccess, customerSuccessAway);
   let customerSuccessId = 0;
-  let quantityOfCustomers = 0;
-  let currentScoreCustomerSuccess = 0;
+  let previousQuantCustomers = 0;
+  let previousScoreCS = 0;
   let isDraw = false;
-  for (let index = 0; index < customersSuccessDisponibles.length; index += 1) {
-    const score = customersSuccessDisponibles[index].score;
-    let currentQuantityOfCustomers = countsTheNumberOfCustomers(
+  for (let index = 0; index < availableCSs.length; index += 1) {
+    const currentScoreCS = availableCSs[index].score;
+    let currentQuantCustomers = countCustomers(
       customers,
-      score,
-      currentScoreCustomerSuccess,
+      currentScoreCS,
+      previousScoreCS,
     );
-    if (currentQuantityOfCustomers > quantityOfCustomers) {
-      quantityOfCustomers = currentQuantityOfCustomers;
-      customerSuccessId = customersSuccessDisponibles[index].id;
-      currentScoreCustomerSuccess = customersSuccessDisponibles[index].score;
+    if (currentQuantCustomers > previousQuantCustomers) {
+      previousQuantCustomers = currentQuantCustomers;
+      customerSuccessId = availableCSs[index].id;
+      previousScoreCS = availableCSs[index].score;
       isDraw = false;
-      } else if (currentQuantityOfCustomers === quantityOfCustomers && quantityOfCustomers !== 0) {
+      } else if (currentQuantCustomers === previousQuantCustomers && previousQuantCustomers !== 0) {
         isDraw = true;
-        currentScoreCustomerSuccess = customersSuccessDisponibles[index].score;
+        previousScoreCS = availableCSs[index].score;
       };
   }
   return isDraw ? 0 : customerSuccessId;
