@@ -12,6 +12,24 @@ function sortCustomerSuccess(customerSuccess, customerSuccessAway) {
     });
   return customersSuccessOrdered;
 }
+
+/**
+ * Returns the number of customers each CustomerSuccess can handle
+ * @param {array} customers
+ * @param {number} score
+ * @param {number} currentScoreCustomerSuccess
+ */
+function countsTheNumberOfCustomers(customers, score, currentScoreCustomerSuccess) {
+  let currentQuantityOfCustomers = 0;
+  for (let index = 0; index < customers.length; index += 1) {
+    const currentScoreCustomer = customers[index].score;
+    if (currentScoreCustomer <= score && currentScoreCustomer > currentScoreCustomerSuccess) {
+      currentQuantityOfCustomers += 1;
+    }
+  }
+  return currentQuantityOfCustomers;
+}
+
 /**
  * Returns the id of the CustomerSuccess with the most customers
  * @param {array} customerSuccess
@@ -30,13 +48,11 @@ function customerSuccessBalancing(
   let isDraw = false;
   for (let index = 0; index < customersSuccessDisponibles.length; index += 1) {
     const score = customersSuccessDisponibles[index].score;
-    let currentQuantityOfCustomers = 0;
-    for (let i = 0; i < customers.length; i += 1) {
-      const currentScoreCustomer = customers[i].score;
-      if (currentScoreCustomer <= score && currentScoreCustomer > currentScoreCustomerSuccess) {
-        currentQuantityOfCustomers += 1;
-      }
-    }
+    let currentQuantityOfCustomers = countsTheNumberOfCustomers(
+      customers,
+      score,
+      currentScoreCustomerSuccess,
+    );
     if (currentQuantityOfCustomers > quantityOfCustomers) {
       quantityOfCustomers = currentQuantityOfCustomers;
       customerSuccessId = customersSuccessDisponibles[index].id;
