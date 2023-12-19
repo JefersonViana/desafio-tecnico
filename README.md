@@ -1,18 +1,24 @@
-# Javascript
-## Como rodar os testes
+# Iniciando aplicação
 
+Clone o repositório : git@github.com:JefersonViana/desafio-tecnico.git
+
+No terminal, execute o comando:
+```
+cd desafio-tecnico
+```
+# Instale as dependências e execute os testes
 No terminal, execute os comandos:
 
+Usando yarn
+
 ```bash
-cd javascript
-yarn
+yarn install
 yarn test
 ```
 
 Ou usando o NPM:
 
 ```bash
-cd javascript
 npm install
 npm test
 ```

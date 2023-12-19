@@ -19,14 +19,14 @@ function updateAndOrderCustomerSuccess(availableCS, unavailableCS) {
  * @param {number} currentScoreCustomerSuccess
  */
 function countCustomers(customers, currentScoreCS, previousScoreCS) {
-  let currentQuantityOfCustomers = 0;
+  let currentQtdOfCustomers = 0;
   for (let index = 0; index < customers.length; index += 1) {
     const currentScoreCustomer = customers[index].score;
     if (currentScoreCustomer <= currentScoreCS && currentScoreCustomer > previousScoreCS) {
-      currentQuantityOfCustomers += 1;
+      currentQtdOfCustomers += 1;
     }
   }
-  return currentQuantityOfCustomers;
+  return currentQtdOfCustomers;
 }
 
 /**
@@ -42,22 +42,22 @@ function customerSuccessBalancing(
 ) {
   const availableCSs = updateAndOrderCustomerSuccess(customerSuccess, customerSuccessAway);
   let customerSuccessId = 0;
-  let previousQuantCustomers = 0;
+  let previousQtdCustomers = 0;
   let previousScoreCS = 0;
   let isDraw = false;
   for (let index = 0; index < availableCSs.length; index += 1) {
     const currentScoreCS = availableCSs[index].score;
-    let currentQuantCustomers = countCustomers(
+    let currentQtdCustomers = countCustomers(
       customers,
       currentScoreCS,
       previousScoreCS,
     );
-    if (currentQuantCustomers > previousQuantCustomers) {
-      previousQuantCustomers = currentQuantCustomers;
+    if (currentQtdCustomers > previousQtdCustomers) {
+      previousQtdCustomers = currentQtdCustomers;
       customerSuccessId = availableCSs[index].id;
       previousScoreCS = availableCSs[index].score;
       isDraw = false;
-      } else if (currentQuantCustomers === previousQuantCustomers && previousQuantCustomers !== 0) {
+      } else if (currentQtdCustomers === previousQtdCustomers && previousQtdCustomers !== 0) {
         isDraw = true;
         previousScoreCS = availableCSs[index].score;
       };
