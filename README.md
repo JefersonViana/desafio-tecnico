@@ -1,7 +1,9 @@
 # Iniciando aplicação
 
-Clone o repositório : git@github.com:JefersonViana/desafio-tecnico.git
-
+Clone o repositório:
+```
+git clone git@github.com:JefersonViana/desafio-tecnico.git
+```
 No terminal, execute o comando:
 ```
 cd desafio-tecnico
