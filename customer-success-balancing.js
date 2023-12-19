@@ -1,4 +1,18 @@
 /**
+ * Returns CustomersSuccess ordered
+ * @param {array} customerSuccess
+ * @param {array} customerSuccessAway
+ */
+function sortCustomerSuccess(customerSuccess, customerSuccessAway) {
+  const customersSuccessOrdered = customerSuccess.filter((cs) => !customerSuccessAway.includes(cs.id))
+    .sort((a, b) => {
+      if (a.score < b.score) return -1;
+      if (a.score > b.score) return 1;
+      return 0
+    });
+  return customersSuccessOrdered;
+}
+/**
  * Returns the id of the CustomerSuccess with the most customers
  * @param {array} customerSuccess
  * @param {array} customers
@@ -9,36 +23,26 @@ function customerSuccessBalancing(
   customers,
   customerSuccessAway
 ) {
-  /**
-   * ===============================================
-   * =========== Write your solution here ==========
-   * ===============================================
-   */
-  customerSuccess = customerSuccess.filter((cs) => {
-    return !customerSuccessAway.includes(cs.id)
-  }).sort((a, b) => {
-    if (a.score < b.score) return -1
-    if (a.score > b.score) return 1
-    return 0
-  })
-  let returnId = 0;
-  let countBase = 0;
-  let currentScore = 0 ;
-  for (let index = 0; index < customerSuccess.length; index += 1) {
-    const score = customerSuccess[index].score;
-    let count = 0;
-    for (let index = 0; index < customers.length; index += 1) {
-      if (customers[index].score <= score && customers[index].score > currentScore) {
-        count += 1;
+  const customersSuccessDisponibles = sortCustomerSuccess(customerSuccess, customerSuccessAway);
+  let customerSuccessId = 0;
+  let quantityOfCustomers = 0;
+  let currentScoreCustomerSuccess = 0;
+  for (let index = 0; index < customersSuccessDisponibles.length; index += 1) {
+    const score = customersSuccessDisponibles[index].score;
+    let currentQuantityOfCustomers = 0;
+    for (let i = 0; i < customers.length; i += 1) {
+      const currentScoreCustomer = customers[i].score;
+      if (currentScoreCustomer <= score && currentScoreCustomer > currentScoreCustomerSuccess) {
+        currentQuantityOfCustomers += 1;
       }
     }
-    if (count > countBase) {
-      countBase = count;
-      returnId = customerSuccess[index].id;
-      currentScore = customerSuccess[index].score;
-    } else if (count === countBase && count !== 0) return 0;
+    if (currentQuantityOfCustomers > quantityOfCustomers) {
+      quantityOfCustomers = currentQuantityOfCustomers;
+      customerSuccessId = customersSuccessDisponibles[index].id;
+      currentScoreCustomerSuccess = customersSuccessDisponibles[index].score;
+      } else if (currentQuantityOfCustomers === quantityOfCustomers && quantityOfCustomers !== 0) return 0;
   }
-  return returnId;
+  return customerSuccessId;
 }
 
 test("Scenario 1", () => {
@@ -93,9 +97,7 @@ test("Scenario 3", () => {
   const testStartTime = new Date().getTime();
 
   const css = mapEntities(arraySeq(999, 1));
-  console.log(css[css.length - 2]);
   const customers = buildSizeEntities(10000, 998);
-  console.log(customers[customers.length - 1]);
   const csAway = [999];
 
   expect(customerSuccessBalancing(css, customers, csAway)).toEqual(998);
@@ -142,4 +144,11 @@ test("Scenario 8", () => {
   const customers = mapEntities([90, 70, 20, 40, 60, 10]);
   const csAway = [2, 4];
   expect(customerSuccessBalancing(css, customers, csAway)).toEqual(1);
+});
+
+test("Scenario 9", () => {
+  const css = mapEntities([60, 40, 95, 150]);
+  const customers = mapEntities([20, 30, 35, 65, 85, 90, 100, 115, 120, 135]);
+  const csAway = [];
+  expect(customerSuccessBalancing(css, customers, csAway)).toEqual(4);
 });
