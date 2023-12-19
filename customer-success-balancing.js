@@ -26,12 +26,12 @@ function customerSuccessBalancing(
   const customersSuccessDisponibles = sortCustomerSuccess(customerSuccess, customerSuccessAway);
   let customerSuccessId = 0;
   let quantityOfCustomers = 0;
-  let currentScoreCustomerSuccess = 0 ;
+  let currentScoreCustomerSuccess = 0;
   for (let index = 0; index < customersSuccessDisponibles.length; index += 1) {
     const score = customersSuccessDisponibles[index].score;
     let currentQuantityOfCustomers = 0;
-    for (let index = 0; index < customers.length; index += 1) {
-      const currentScoreCustomer = customers[index].score;
+    for (let i = 0; i < customers.length; i += 1) {
+      const currentScoreCustomer = customers[i].score;
       if (currentScoreCustomer <= score && currentScoreCustomer > currentScoreCustomerSuccess) {
         currentQuantityOfCustomers += 1;
       }
@@ -40,7 +40,7 @@ function customerSuccessBalancing(
       quantityOfCustomers = currentQuantityOfCustomers;
       customerSuccessId = customersSuccessDisponibles[index].id;
       currentScoreCustomerSuccess = customersSuccessDisponibles[index].score;
-    } else if (currentQuantityOfCustomers === quantityOfCustomers && quantityOfCustomers !== 0) return 0;
+      } else if (currentQuantityOfCustomers === quantityOfCustomers && quantityOfCustomers !== 0) return 0;
   }
   return customerSuccessId;
 }
@@ -144,4 +144,11 @@ test("Scenario 8", () => {
   const customers = mapEntities([90, 70, 20, 40, 60, 10]);
   const csAway = [2, 4];
   expect(customerSuccessBalancing(css, customers, csAway)).toEqual(1);
+});
+
+test("Scenario 9", () => {
+  const css = mapEntities([60, 40, 95, 150]);
+  const customers = mapEntities([20, 30, 35, 65, 85, 90, 100, 115, 120, 135]);
+  const csAway = [];
+  expect(customerSuccessBalancing(css, customers, csAway)).toEqual(4);
 });
