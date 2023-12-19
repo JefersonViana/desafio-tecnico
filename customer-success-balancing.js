@@ -27,6 +27,7 @@ function customerSuccessBalancing(
   let customerSuccessId = 0;
   let quantityOfCustomers = 0;
   let currentScoreCustomerSuccess = 0;
+  let isDraw = false;
   for (let index = 0; index < customersSuccessDisponibles.length; index += 1) {
     const score = customersSuccessDisponibles[index].score;
     let currentQuantityOfCustomers = 0;
@@ -40,9 +41,13 @@ function customerSuccessBalancing(
       quantityOfCustomers = currentQuantityOfCustomers;
       customerSuccessId = customersSuccessDisponibles[index].id;
       currentScoreCustomerSuccess = customersSuccessDisponibles[index].score;
-      } else if (currentQuantityOfCustomers === quantityOfCustomers && quantityOfCustomers !== 0) return 0;
+      isDraw = false;
+      } else if (currentQuantityOfCustomers === quantityOfCustomers && quantityOfCustomers !== 0) {
+        isDraw = true;
+        currentScoreCustomerSuccess = customersSuccessDisponibles[index].score;
+      };
   }
-  return customerSuccessId;
+  return isDraw ? 0 : customerSuccessId;
 }
 
 test("Scenario 1", () => {
