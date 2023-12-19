@@ -121,13 +121,13 @@ test("Scenario 5", () => {
   expect(customerSuccessBalancing(css, customers, csAway)).toEqual(1);
 });
 
-// test("Scenario 6", () => {
-//   const css = mapEntities([100, 99, 88, 3, 4, 5]);
-//   const customers = mapEntities([10, 10, 10, 20, 20, 30, 30, 30, 20, 60]);
-//   const csAway = [1, 3, 2];
+test("Scenario 6", () => {
+  const css = mapEntities([100, 99, 88, 3, 4, 5]);
+  const customers = mapEntities([10, 10, 10, 20, 20, 30, 30, 30, 20, 60]);
+  const csAway = [1, 3, 2];
 
-//   expect(customerSuccessBalancing(css, customers, csAway)).toEqual(0);
-// });
+  expect(customerSuccessBalancing(css, customers, csAway)).toEqual(0);
+});
 
 // test("Scenario 7", () => {
 //   const css = mapEntities([100, 99, 88, 3, 4, 5]);
