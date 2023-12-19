@@ -36,7 +36,7 @@ function customerSuccessBalancing(
       countBase = count;
       returnId = customerSuccess[index].id;
       currentScore = customerSuccess[index].score;
-    } else if (count === countBase) return 0;
+    } else if (count === countBase && count !== 0) return 0;
   }
   return returnId;
 }
@@ -88,20 +88,22 @@ test("Scenario 2", () => {
   expect(customerSuccessBalancing(css, customers, csAway)).toEqual(0);
 });
 
-// test("Scenario 3", () => {
-//   const testTimeoutInMs = 100;
-//   const testStartTime = new Date().getTime();
+test("Scenario 3", () => {
+  const testTimeoutInMs = 100;
+  const testStartTime = new Date().getTime();
 
-//   const css = mapEntities(arraySeq(999, 1));
-//   const customers = buildSizeEntities(10000, 998);
-//   const csAway = [999];
+  const css = mapEntities(arraySeq(999, 1));
+  console.log(css[css.length - 2]);
+  const customers = buildSizeEntities(10000, 998);
+  console.log(customers[customers.length - 1]);
+  const csAway = [999];
 
-//   expect(customerSuccessBalancing(css, customers, csAway)).toEqual(998);
+  expect(customerSuccessBalancing(css, customers, csAway)).toEqual(998);
 
-//   if (new Date().getTime() - testStartTime > testTimeoutInMs) {
-//     throw new Error(`Test took longer than ${testTimeoutInMs}ms!`);
-//   }
-// });
+  if (new Date().getTime() - testStartTime > testTimeoutInMs) {
+    throw new Error(`Test took longer than ${testTimeoutInMs}ms!`);
+  }
+});
 
 // test("Scenario 4", () => {
 //   const css = mapEntities([1, 2, 3, 4, 5, 6]);
